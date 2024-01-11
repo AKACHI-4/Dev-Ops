@@ -4,6 +4,7 @@
 
 - [Docker Mastery (Course)](https://www.udemy.com/course/docker-mastery/)
 - [FreeCodeCamp Docker (Video)](https://youtu.be/kTp5xUtcalw)
+- [Chad KubeSimplify (Github)](https://github.com/chadmcrowell/linux-docker)
 
 ### ⚫ Overview of Docker
 
@@ -37,13 +38,13 @@ Docker is an open-source platform designed to simplify the development, deployme
 - `ENV` (environment variable)
 - `RUN` (any arbitrary shell command)
 - `EXPOSE` (open port from container to virtual network)
-- `CMD` (command to run when the container starts) 
+- `CMD` (command to run when the container starts)
 - `WORKDIR` (Create a dir where all the files will be copied and used.)
 
 To build an image from the **Dockerfile**, use this command
 
 ```bash
-docker build <path> 
+docker build <path>
 // docker build .
 ```
 
@@ -106,24 +107,25 @@ docker run -v <path to your local system>:<container path>
 docker run -v /app/content:/usr/share/nginx/html  nginx
 docker run -v $(pwd):/user/html nginx
 ```
- In compose, we don't have to give the `pwd`
- 
- ```yaml
-     volumes:
-      - ./:/usr/share/nginx/html:ro
-      - ./app:/usr/share/nginx/html/app:ro 
- ```
+
+In compose, we don't have to give the `pwd`
+
+```yaml
+volumes:
+  - ./:/usr/share/nginx/html:ro
+  - ./app:/usr/share/nginx/html/app:ro
+```
 
 ### ⚫ Docker Compose
 
-- Compose help us define and running multi-container Docker applications and configure relationships between containers 
+- Compose help us define and running multi-container Docker applications and configure relationships between containers
 - It also saves the hassle from entering the commands from the CLI.
 - We have to write the configs in the YAML file, by default the file name is `docker-compose.yml`. We can run/stop by `docker compose up/down`
 
 The Skeleton of Docker compose
 
 ```yaml
-services:  # containers. same as docker run
+services: # containers. same as docker run
   servicename: # a friendly name. this is also the DNS name inside the network
     image: # Optional if you use to build:
     command: # Optional, replace the default CMD specified by the image
@@ -145,15 +147,15 @@ services:
     image: mongo:4.0
     volumes:
       - mongo-db:/data/db
-    networks: 
+    networks:
       - my-net
-      
+
 volumes:
   mongo-db: # named volume
-  
+
 networks:
-    my-net:
-        driver: bridge
+  my-net:
+    driver: bridge
 ```
 
 If any container depends on another container
@@ -189,9 +191,10 @@ Here we don't use `build:` object and there is new `deploy:` specific to swarm t
 ![Screenshot from 2022-11-04 13-34-28](https://user-images.githubusercontent.com/51878265/199923225-83fe75fc-406a-4d51-b2d4-15fb5ec6b4ee.png)
 
 ```yaml
-    deploy:
-      replicas: 3
+deploy:
+  replicas: 3
 ```
+
 We deploy stack files with this command
 
 ```bash
@@ -202,7 +205,7 @@ docker stack deploy -c file.yml <stackname>
 
 Docker Swarm supports secrets. We can pass ENV variables like SSH keys, Usernames, and passwords with help of that. We can pass secrets from the file or save the Docker secret.
 
--  We can create Docker secrets though CLI `external:`
+- We can create Docker secrets though CLI `external:`
 
 ```bash
 echo "<password text>" | docker secret create psql-pw -
@@ -214,21 +217,22 @@ or
 
 ```yaml
 services:
-    postgres:
-      image: postgres
-      secrets:
-        - post-pass
-        - post-user
-      environment:
-          POSTGRES_PASSWORD_FILE: /run/secrets/post-pass
-          POSTGRES_USER_FILE: /run/secrets/post-user
-      
+  postgres:
+    image: postgres
+    secrets:
+      - post-pass
+      - post-user
+    environment:
+      POSTGRES_PASSWORD_FILE: /run/secrets/post-pass
+      POSTGRES_USER_FILE: /run/secrets/post-user
+
 secrets:
-    post-pass:
-      external: true
-    post-user:
-        file: ./post-user.txt
+  post-pass:
+    external: true
+  post-user:
+    file: ./post-user.txt
 ```
+
 ## ⚫ Docker Healthcheck
 
 ```dockerfile
@@ -241,5 +245,3 @@ CMD curl -f http://localhost/ || exit 1
 We can create a reg with the official [Registry image](https://hub.docker.com/_/registry)
 
  <img src="https://user-images.githubusercontent.com/51878265/200518472-c520103f-11a8-4104-a859-32f5e3c6304e.png">
-
-
