@@ -8,6 +8,7 @@ Jenkins is an open source automation server. It helps automate the parts of soft
 - [official documentation](https://www.jenkins.io/doc/)
 - [Jenkins Docker Image](https://hub.docker.com/r/jenkins/jenkins)
 - [Pipeline Syntax](https://www.jenkins.io/doc/book/pipeline/syntax/)
+- [Jenkins Interview](https://workspace-23.notion.site/Jenkins-f05bd3864594480cba294b866e7e5ba4)
 
 #### Learning Resources
 
